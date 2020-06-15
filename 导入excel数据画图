@@ -1,0 +1,34 @@
+import xlrd
+from xlrd import xldate_as_tuple
+import datetime
+import numpy as np
+import matplotlib.pyplot as plt
+#导入需要读取的第一个Excel表格的路径
+data1 = xlrd.open_workbook(r'/Users/mac/Desktop/学习/test.xlsx')
+table = data1.sheets()[0]
+#创建一个空列表，存储Excel的数据
+tables = []
+#定义横坐标和纵坐标
+X = []
+Y = []
+#将excel表格内容导入到tables列表中
+def import_excel(excel):
+  for rown in range(excel.nrows):
+   array = {'A':'','B':''}
+   array['A'] = table.cell_value(rown,0)
+   array['B'] = table.cell_value(rown,1)
+   X.append(table.cell_value(rown,0))
+   Y.append(table.cell_value(rown,1))
+   tables.append(array)
+
+if __name__ == '__main__':
+  #将excel表格的内容导入到列表中
+  import_excel(table)
+  for i in tables:
+    print(i)
+#以下为画图，可以根据https://www.cnblogs.com/dudududu/p/9149762.html 自定义
+  x=X
+  y=Y
+  plt.figure()
+  plt.plot(x,y)
+  plt.show()
