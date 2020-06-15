@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+np.random.seed(2)  # 设置随机种子
+df = pd.DataFrame(np.random.rand(5, 4),
+                  columns=['A', 'B', 'C', 'D'])  # 先生成0-1之间的5*4维度数据，再装入4列DataFrame中
+# f=df.boxplot(sym='r*',patch_artist=True)
+# 其中，sym='r*',表示异常点的形状，
+# vert=False，表示横向还是竖向（True），,
+# patch_artist=True,（上下四分位框内是否填充，True为填充）
+# meanline=False,showmeans=True，是否有均值线及其形状，meanline=True时，均值线也像中位数线一样是条红色线段，这样容易与中位数线混淆。
+# 另外，还有其他参数，比如notch表示中间箱体是否缺口，whis为设置数据的范围，showcaps、showbox是否显示边框
+# https://www.jianshu.com/p/b2f70f867a4a
+f = df.boxplot(patch_artist=True, return_type='dict')
+
+# 这里共有四个box
+color = ['k', 'g', 'r', 'deepskyblue']  # 有多少box就对应设置多少颜色
+
+for box, c in zip(f['boxes'], color):
+    # 箱体边框颜色
+    box.set(color=c, linewidth=2)
+    # 箱体内部填充颜色
+    box.set(facecolor=c)
+
+# 这里设置的是各个box的其他属性
+for whisker in f['whiskers']:
+    whisker.set(color='r', linewidth=2)
+for cap in f['caps']:
+    cap.set(color='g', linewidth=3)
+for median in f['medians']:
+    median.set(color='DarkBlue', linewidth=3)
+for flier in f['fliers']:
+    flier.set(marker='o', color='y', alpha=0.5)
+plt.show()
